@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+@theme {
+  --color-fantas-blue: #0047FF;
+  --color-fantas-dark: #0a1628;
+  --color-fantas-light: #f0f4ff;
+  --color-fantas-gray: #f8f9fc;
+  --color-fantas-border: #e2e8f0;
+  --color-fantas-text: #334155;
+  --color-fantas-text-light: #64748b;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-fantas-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Focus visible styles for accessibility */
+  :focus-visible {
+    outline: 2px solid #0047FF;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Selection color */
+  ::selection {
+    background-color: #0047FF;
+    color: white;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 100px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+
+  /* Smooth images */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-fantas-blue text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-fantas-blue/25 hover:-translate-y-0.5 active:translate-y-0 active:shadow-md;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 border-2 border-gray-200 text-fantas-dark font-semibold px-6 py-3 rounded-full transition-all duration-300 hover:border-fantas-blue hover:text-fantas-blue hover:-translate-y-0.5;
+  }
+
+  .section-title {
+    @apply text-2xl md:text-3xl font-bold text-fantas-dark;
+  }
+
+  .section-title-blue {
+    @apply text-fantas-blue;
+  }
+
+  .card-shadow {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Glass effect utility */
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Swiper custom styles */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #0047FF !important;
+  transition: all 0.3s ease !important;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  transform: scale(1.1);
+}
+
+.swiper-pagination-bullet-active {
+  background: #0047FF !important;
+}
+
+/* Animation keyframes */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 71, 255, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(0, 71, 255, 0); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

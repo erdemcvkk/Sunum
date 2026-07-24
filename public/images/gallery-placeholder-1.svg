@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0047FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0033CC;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="12" fill="url(#g1)"/>
+  <text x="200" y="160" text-anchor="middle" fill="white" font-size="28" font-weight="bold" font-family="Arial">EHLİYET ALMANIN</text>
+  <text x="200" y="200" text-anchor="middle" fill="white" font-size="28" font-weight="bold" font-family="Arial">DOĞRU YOLU</text>
+  <rect x="100" y="240" width="200" height="4" rx="2" fill="white" opacity="0.5"/>
+  <circle cx="200" cy="320" r="40" fill="white" opacity="0.15"/>
+  <text x="200" y="330" text-anchor="middle" fill="white" font-size="30" font-family="Arial">🚗</text>
+</svg>

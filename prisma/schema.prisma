@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Package {
+  id              String   @id @default(cuid())
+  title           String
+  postCount       Int
+  price           String
+  features        String   // JSON string array stored as text for SQLite compatibility
+  thumbnailImages String   // JSON string array stored as text for SQLite compatibility
+  isPopular       Boolean  @default(false)
+  order           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PortfolioItem {
+  id              String   @id @default(cuid())
+  clientName      String   // Marka / Kurum Adı
+  username        String   @default("") // Instagram Kullanıcı Adı
+  category        String   @default("Sürücü Kursu") // Kategori
+  bio             String   @default("[]") // JSON string array for bio lines
+  link            String   @default("") // Web sitesi / WhatsApp linki
+  postsCount      Int      @default(120) // Gönderi sayısı
+  followers       String   @default("2.500") // Takipçi sayısı
+  following       Int      @default(75) // Takip edilen sayısı
+  mockupImageUrl  String   @default("") // Profil/Avatar resmi
+  imagesJson      String   @default("[]") // Gönderi görselleri dizisi (JSON string)
+  order           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  category  String
+  imageUrl  String
+  title     String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GalleryCategory {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model SiteContent {
+  id              String  @id @default(cuid())
+  sectionKey      String  @unique
+  textValue       String?
+  primaryImageUrl String?
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  fileName  String   // Orijinal dosya adı
+  url       String   @unique // /uploads/xxx.webp
+  mimeType  String   // image/webp vb.
+  size      Int      // byte cinsinden
+  createdAt DateTime @default(now())
+}
+
+model ReadyPackage {
+  id          String   @id @default(cuid())
+  title       String   // Hazır Paket Başlığı
+  description String   @default("") // Paket açıklaması/içeriği
+  price       String   // Fiyat (örn: 1.499)
+  badge       String   @default("Hazır Tasarım Seti") // Etiket/Rozet
+  imagesJson  String   @default("[]") // Paket içindeki görseller (JSON string)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
