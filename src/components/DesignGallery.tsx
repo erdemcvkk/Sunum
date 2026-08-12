@@ -107,12 +107,12 @@ export default function DesignGallery({
 
   return (
     <>
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
           
           {/* Header */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-fantas-dark">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-fantas-dark">
               TASARIM <span className="text-transparent bg-clip-text bg-gradient-to-r from-fantas-blue to-indigo-500">GALERİSİ</span>
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-fantas-blue to-indigo-500 mx-auto mt-4 rounded-full mb-6" />
@@ -140,7 +140,7 @@ export default function DesignGallery({
                   <button
                     key={categoryName}
                     onClick={() => handleCategoryChange(categoryName)}
-                    className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    className={`px-3 py-1.5 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${
                       activeCategory === categoryName
                         ? 'bg-fantas-blue text-white shadow-md shadow-blue-500/20'
                         : 'border border-gray-200 text-gray-500 hover:border-fantas-blue hover:text-fantas-blue bg-white'
@@ -177,6 +177,7 @@ export default function DesignGallery({
                         className="object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none"
                         sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         draggable={false}
+                        priority={idx < 4}
                       />
                       
                       {/* Grid Watermark Layer */}
@@ -224,7 +225,7 @@ export default function DesignGallery({
             <div className="mt-16 text-center">
               <button 
                 onClick={() => setShowAll(true)}
-                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 via-fantas-blue to-indigo-600 text-white px-12 py-5 rounded-full font-extrabold text-sm md:text-base shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 active:scale-95 transition-all duration-300 select-none cursor-pointer tracking-wider uppercase border border-white/10"
+                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 via-fantas-blue to-indigo-600 text-white px-8 py-4 sm:px-12 sm:py-5 rounded-full font-extrabold text-xs sm:text-sm md:text-base shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 active:scale-95 transition-all duration-300 select-none cursor-pointer tracking-wider uppercase border border-white/10"
               >
                 {/* Glow layer */}
                 <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 rounded-full transition-opacity duration-300" />

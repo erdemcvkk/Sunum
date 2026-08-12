@@ -15,11 +15,13 @@ import {
   X,
   ChevronRight,
   FolderOpen,
-  Boxes
+  Boxes,
+  BarChart3
 } from 'lucide-react'
 
 const navItems = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+  { name: 'Analitik', href: '/admin/analytics', icon: BarChart3 },
   { name: 'Portfolyo', href: '/admin/portfolio', icon: Briefcase },
   { name: 'Hazır Paket Tasarımlar', href: '/admin/ready-packages', icon: Boxes },
   { name: 'Galeri', href: '/admin/gallery', icon: ImageIcon },

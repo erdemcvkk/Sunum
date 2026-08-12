@@ -102,9 +102,8 @@ export default function PortfolioCarousel({ items = [] }: { items?: PortfolioIte
                 swiper.navigation.init();
                 swiper.navigation.update();
               }}
-              pagination={{ clickable: true, el: '.custom-pagination-insta' }}
               autoplay={{ delay: 6000, disableOnInteraction: false }}
-              className="pb-16"
+              className="pb-4"
             >
               {safeItems.map((item, index) => {
                 let bioLines: string[] = [];
@@ -147,7 +146,7 @@ export default function PortfolioCarousel({ items = [] }: { items?: PortfolioIte
                     <div className="relative w-[280px] sm:w-[310px] md:w-[320px] aspect-[9/19] mx-auto transition-all duration-500 hover:scale-[1.02] group">
                       
                       {/* Outer Titanium Body & Shadow */}
-                      <div className="absolute inset-0 rounded-[52px] bg-gradient-to-b from-slate-700 via-slate-800 to-slate-950 p-[10px] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.45),0_15px_30px_-10px_rgba(0,71,255,0.15)] border border-slate-600/80 ring-1 ring-black/40">
+                      <div className="absolute inset-0 rounded-[52px] bg-gradient-to-b from-slate-700 via-slate-800 to-slate-950 p-[10px] shadow-none border border-slate-600/80 ring-1 ring-black/40">
                         
                         {/* Metallic Highlight Bezels */}
                         <div className="w-full h-full rounded-[44px] bg-black p-[3px] border border-slate-900 shadow-inner relative flex flex-col overflow-hidden">
@@ -319,9 +318,6 @@ export default function PortfolioCarousel({ items = [] }: { items?: PortfolioIte
                 </button>
               </>
             )}
-
-            {/* Pagination Dots */}
-            <div className="custom-pagination-insta flex justify-center gap-2 mt-2" />
           </div>
         )}
       </div>

@@ -17,15 +17,16 @@ const DEFAULT_PACKAGES: PricingPackage[] = [
   {
     id: '1',
     title: 'BAŞLANGIÇ PAKETİ',
-    postCount: 8,
-    price: '2.999',
+    postCount: 6,
+    price: '6.999',
     features: JSON.stringify([
-      '8 Post Tasarımı',
-      '8 Story Tasarımı',
+      '6 Post Tasarımı',
+      '6 Story Tasarımı',
       'Marka Renklerinize Özel',
       'Kendi Logonuzla Kullanım',
       'İstediğiniz Araçlara Özel (Otomobil, Motosiklet, Tır & Kamyon)',
       'Size Özel Şablon (Telefon Numarası, Adres vb.)',
+      'Özel Gün Tasarımları Dahil',
       '1 Revize Hakkı',
       'Standart Tasarım Desteği',
       '7 İş Günü İçerisinde Teslimat',
@@ -37,15 +38,16 @@ const DEFAULT_PACKAGES: PricingPackage[] = [
   {
     id: '2',
     title: 'STANDART PAKET',
-    postCount: 12,
-    price: '4.999',
+    postCount: 8,
+    price: '9.999',
     features: JSON.stringify([
-      '12 Post Tasarımı',
-      '12 Story Tasarımı',
+      '8 Post Tasarımı',
+      '8 Story Tasarımı',
       'Marka Renklerinize Özel',
       'Kendi Logonuzla Kullanım',
       'İstediğiniz Araçlara Özel (Otomobil, Motosiklet, Tır & Kamyon)',
       'Size Özel Şablon (Telefon Numarası, Adres vb.)',
+      'Özel Gün Tasarımları Dahil',
       '2 Revize Hakkı',
       'Kampanya Tasarımları',
       '7 İş Günü İçerisinde Teslimat',
@@ -57,15 +59,16 @@ const DEFAULT_PACKAGES: PricingPackage[] = [
   {
     id: '3',
     title: 'PROFESYONEL PAKET',
-    postCount: 15,
-    price: '6.999',
+    postCount: 12,
+    price: '12.999',
     features: JSON.stringify([
-      '15 Post Tasarımı',
-      '15 Story Tasarımı',
+      '12 Post Tasarımı',
+      '12 Story Tasarımı',
       'Marka Renklerinize Özel',
       'Kendi Logonuzla Kullanım',
       'İstediğiniz Araçlara Özel (Otomobil, Motosiklet, Tır & Kamyon)',
       'Size Özel Şablon (Telefon Numarası, Adres vb.)',
+      'Özel Gün Tasarımları Dahil',
       '3 Revize Hakkı',
       'Özel Kampanya Tasarımları',
       'Öncelikli Destek',
@@ -78,15 +81,16 @@ const DEFAULT_PACKAGES: PricingPackage[] = [
   {
     id: '4',
     title: 'PREMIUM PAKET',
-    postCount: 20,
-    price: '9.999',
+    postCount: 15,
+    price: '15.999',
     features: JSON.stringify([
-      '20 Post Tasarımı',
-      '20 Story Tasarımı',
+      '15 Post Tasarımı',
+      '15 Story Tasarımı',
       'Marka Renklerinize Özel',
       'Kendi Logonuzla Kullanım',
       'İstediğiniz Araçlara Özel (Otomobil, Motosiklet, Tır & Kamyon)',
       'Size Özel Şablon (Telefon Numarası, Adres vb.)',
+      'Özel Gün Tasarımları Dahil',
       '5 Revize Hakkı',
       'Özel Kampanya Tasarımları',
       'Öncelikli Destek',
@@ -96,7 +100,7 @@ const DEFAULT_PACKAGES: PricingPackage[] = [
   },
 ];
 
-export default function PricingSection({ packages = [] }: { packages?: PricingPackage[] }) {
+export default function PricingSection({ packages = [], showMonthlyNote = false }: { packages?: PricingPackage[], showMonthlyNote?: boolean }) {
   const displayPackages = packages.length > 0 ? packages : DEFAULT_PACKAGES;
 
   const getPackageIcon = (index: number) => {
@@ -127,8 +131,8 @@ export default function PricingSection({ packages = [] }: { packages?: PricingPa
             <Sparkles className="w-3.5 h-3.5" />
             ŞEFFAF & TEK SEFERLİK FİYATLANDIRMA
           </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-fantas-dark tracking-tight">
-            SÜRÜCÜ KURSU <br className="hidden sm:block" />
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-fantas-dark tracking-tight">
+            SOSYAL MEDYA <br className="hidden sm:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-fantas-blue via-indigo-600 to-blue-700">
               TASARIM PAKETLERİMİZ
             </span>
@@ -161,6 +165,9 @@ export default function PricingSection({ packages = [] }: { packages?: PricingPa
               if (!features.some(f => f.toLowerCase().includes('şablon') || f.toLowerCase().includes('telefon numarası'))) {
                 features.splice(5, 0, 'Size Özel Şablon (Telefon Numarası, Adres vb.)');
               }
+              if (!features.some(f => f.toLowerCase().includes('özel gün') || f.toLowerCase().includes('günler dahil'))) {
+                features.splice(6, 0, 'Özel Gün Tasarımları Dahil');
+              }
             } catch {
               features = [];
             }
@@ -179,7 +186,7 @@ export default function PricingSection({ packages = [] }: { packages?: PricingPa
               >
                 {/* Popular Badge */}
                 {isPopular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 text-white px-4 py-1.5 rounded-full text-[11px] font-extrabold tracking-wider shadow-lg flex items-center gap-1.5 uppercase whitespace-nowrap">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 text-white px-3 sm:px-4 py-1.5 rounded-full text-[9px] sm:text-[11px] font-extrabold tracking-wider shadow-lg flex items-center gap-1.5 uppercase whitespace-nowrap">
                     ⭐ EN POPÜLER
                   </div>
                 )}
@@ -232,6 +239,7 @@ export default function PricingSection({ packages = [] }: { packages?: PricingPa
                   href={`https://wa.me/905466308246?text=${encodeURIComponent(`Merhaba, "${pkg.title}" (${formattedPrice(pkg.price)}) paketiniz hakkında bilgi almak ve sipariş vermek istiyorum.`)}`}
                   target="_blank"
                   rel="noreferrer"
+                  data-track="package-buy"
                   className={`w-full py-3.5 rounded-2xl font-extrabold text-xs sm:text-sm transition-all duration-300 text-center shadow-md flex items-center justify-center gap-2 ${
                     isPopular 
                       ? 'bg-fantas-blue text-white hover:bg-blue-700 shadow-blue-500/25 hover:shadow-blue-500/40' 
@@ -256,6 +264,19 @@ export default function PricingSection({ packages = [] }: { packages?: PricingPa
             Paketlerimiz aylık abonelik değildir. Belirtilen tasarımlar tek seferlik olarak özenle hazırlanır ve tarafınıza eksiksiz teslim edilir.
           </div>
         </div>
+
+        {/* Optional Monthly Note */}
+        {showMonthlyNote && (
+          <div className="max-w-3xl mx-auto mt-4 bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5 shadow-sm text-center sm:text-left">
+            <div className="p-2 bg-emerald-100 text-emerald-700 rounded-xl shrink-0 hidden sm:block">
+              <Info className="w-5 h-5" />
+            </div>
+            <div className="text-xs sm:text-sm text-emerald-900 leading-relaxed">
+              <span className="font-bold text-emerald-950 block sm:inline">Aylık Paket Anlaşmaları: </span>
+              Aylık paket anlaşmalarında markanıza özel marketing planının oluşturulması ve sosyal medya paylaşımlarının düzenli olarak yapılması pakete dahildir.
+            </div>
+          </div>
+        )}
 
       </div>
     </section>

@@ -25,6 +25,12 @@
     overflow-x: hidden;
   }
 
+  img {
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+  }
+
   /* Focus visible styles for accessibility */
   :focus-visible {
     outline: 2px solid #0047FF;
@@ -59,6 +65,37 @@
   /* Smooth images */
   img {
     image-rendering: -webkit-optimize-contrast;
+  }
+
+  /* Mobile touch improvements */
+  @media (max-width: 640px) {
+    html {
+      scroll-padding-top: 70px;
+    }
+    
+    /* Ensure no horizontal overflow on mobile */
+    body {
+      max-width: 100vw;
+    }
+    
+    /* Improve touch targets */
+    a, button {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Prevent content from being too close to screen edges */
+    .container {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+  /* Prevent iOS zoom on input focus */
+  @media screen and (max-width: 768px) {
+    input, select, textarea {
+      font-size: 16px;
+    }
   }
 }
 

@@ -76,7 +76,21 @@ model ReadyPackage {
   price       String   // Fiyat (örn: 1.499)
   badge       String   @default("Hazır Tasarım Seti") // Etiket/Rozet
   imagesJson  String   @default("[]") // Paket içindeki görseller (JSON string)
+  isFeatured  Boolean  @default(false) // Fırsat Paketi olarak öne çıkar
   order       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model ClickEvent {
+  id          String   @id @default(cuid())
+  elementType String   // button, link, cta
+  elementText String   // Tıklanan elementin yazısı
+  trackId     String   // data-track attribute değeri
+  pageUrl     String   // Hangi sayfada tıklandı
+  sectionId   String   @default("") // Hangi bölümde (opsiyonel)
+  sessionId   String   // Anonim oturum kimliği
+  userAgent   String   @default("") // Tarayıcı bilgisi
+  referrer    String   @default("") // Nereden geldi
+  createdAt   DateTime @default(now())
 }

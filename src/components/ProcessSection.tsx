@@ -76,23 +76,24 @@ export default function ProcessSection() {
 
           {/* Right Side - CTA Box */}
           <div className="lg:col-span-5">
-            <div className="bg-fantas-blue rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden">
+            <div className="bg-fantas-blue rounded-[2.5rem] p-6 sm:p-8 lg:p-10 text-white shadow-2xl relative overflow-hidden">
                {/* Decor circles */}
                <div className="absolute -top-20 -right-20 w-48 h-48 bg-white opacity-10 rounded-full blur-2xl"></div>
                <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-white opacity-10 rounded-full blur-2xl"></div>
                
-               <h3 className="text-3xl font-extrabold mb-6 leading-tight relative z-10">
-                 Sürücü Kursunuzun <br/>
+               <h3 className="text-2xl sm:text-3xl font-extrabold mb-6 leading-tight relative z-10">
+                 Markanızın <br/>
                  Sosyal Medyasını <br/>
                  <span className="text-yellow-300">Bir Üst Seviyeye Taşıyın!</span>
                </h3>
                
-               <p className="mb-10 text-blue-100 font-medium relative z-10 text-lg">
+               <p className="mb-10 text-blue-100 font-medium relative z-10 text-base sm:text-lg">
                  Profesyonel tasarımlarla rakiplerinizin önüne geçmek için hemen bizimle iletişime geçin.
                </p>
                
                <a href="https://wa.me/905466308246?text=Merhaba,%20sosyal%20medya%20tasar%C4%B1mlar%C4%B1n%C4%B1z%20hakk%C4%B1nda%20bilgi%20ve%20teklif%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" 
-                  className="inline-flex items-center justify-center gap-3 bg-white text-fantas-dark px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-50 transition-colors shadow-lg hover:shadow-xl w-full sm:w-auto relative z-10 group">
+                  data-track="whatsapp-process"
+                  className="inline-flex items-center justify-center gap-3 bg-white text-fantas-dark px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:bg-gray-50 transition-colors shadow-lg hover:shadow-xl w-full sm:w-auto relative z-10 group">
                   <div className="bg-[#25D366] p-1.5 rounded-full text-white group-hover:scale-110 transition-transform">
                     <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                   </div>

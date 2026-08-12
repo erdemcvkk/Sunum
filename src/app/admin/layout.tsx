@@ -1,6 +1,8 @@
 import { verifyAdmin } from '@/lib/auth'
 import AdminShell from './components/AdminShell'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Admin Paneli | Yönetim',
 }

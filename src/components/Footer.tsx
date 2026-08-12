@@ -31,9 +31,9 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-gray-50 pt-20 pb-8 border-t border-gray-100">
+    <footer className="bg-gray-50 pt-12 sm:pt-16 lg:pt-20 pb-8 border-t border-gray-100">
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
           
           {/* Col 1: Logo & Desc */}
           <div>
@@ -47,7 +47,7 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-fantas-text-light text-sm leading-relaxed">
-              Sürücü kurslarına özel sosyal medya tasarım çözümleri. Markanızı dijitalde bir adım öne taşıyın.
+              Markanıza özel sosyal medya tasarım çözümleri. Markanızı dijitalde bir adım öne taşıyın.
             </p>
           </div>
 
@@ -77,7 +77,7 @@ export default function Footer() {
                 <div className="p-1.5 bg-emerald-50 rounded-lg text-emerald-600 shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                   <MessageCircle className="w-3.5 h-3.5" />
                 </div>
-                <a href="https://wa.me/905466308246" target="_blank" rel="noreferrer" className="hover:text-fantas-blue transition-colors font-medium">0 (546) 630 82 46</a>
+                <a href="https://wa.me/905466308246" target="_blank" rel="noreferrer" data-track="footer-whatsapp" className="hover:text-fantas-blue transition-colors font-medium">0 (546) 630 82 46</a>
               </li>
               <li className="flex items-start gap-3 text-sm text-fantas-text-light group">
                 <div className="p-1.5 bg-blue-50 rounded-lg text-fantas-blue shrink-0 group-hover:bg-fantas-blue group-hover:text-white transition-all duration-300">
@@ -109,6 +109,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={social.label}
+                  data-track={social.label === 'Instagram' ? 'footer-instagram' : social.label === 'WhatsApp' ? 'footer-whatsapp' : undefined}
                   className={`w-10 h-10 bg-white rounded-xl flex items-center justify-center text-fantas-text-light hover:text-white ${social.hoverColor} transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 border border-gray-100`}
                 >
                   {social.icon}

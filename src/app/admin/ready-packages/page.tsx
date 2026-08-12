@@ -20,7 +20,8 @@ import {
   FolderOpen,
   GripVertical,
   Boxes,
-  Tag
+  Tag,
+  Flame
 } from 'lucide-react'
 import MediaPicker from '@/app/admin/components/MediaPicker'
 
@@ -31,6 +32,7 @@ type ReadyPackage = {
   price: string
   badge: string
   imagesJson: string
+  isFeatured: boolean
   order: number
 }
 
@@ -45,6 +47,7 @@ export default function ReadyPackagesAdminPage() {
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('1.499')
   const [badge, setBadge] = useState('Hazır Tasarım Seti')
+  const [isFeatured, setIsFeatured] = useState(false)
   const [packageImages, setPackageImages] = useState<string[]>([])
 
   const [uploadingImages, setUploadingImages] = useState(false)
@@ -73,6 +76,7 @@ export default function ReadyPackagesAdminPage() {
     setDescription('')
     setPrice('1.499')
     setBadge('Hazır Tasarım Seti')
+    setIsFeatured(false)
     setPackageImages([])
   }
 
@@ -83,6 +87,7 @@ export default function ReadyPackagesAdminPage() {
     setDescription(item.description || '')
     setPrice(item.price || '1.499')
     setBadge(item.badge || 'Hazır Tasarım Seti')
+    setIsFeatured(item.isFeatured || false)
 
     try {
       setPackageImages(JSON.parse(item.imagesJson || '[]'))
@@ -170,6 +175,7 @@ export default function ReadyPackagesAdminPage() {
           price,
           badge,
           imagesJson: JSON.stringify(packageImages),
+          isFeatured,
         })
         resetForm()
         await loadItems()
@@ -186,6 +192,7 @@ export default function ReadyPackagesAdminPage() {
       formData.append('price', price)
       formData.append('badge', badge)
       formData.append('imagesJson', JSON.stringify(packageImages))
+      formData.append('isFeatured', String(isFeatured))
 
       try {
         await createReadyPackage(formData)
@@ -287,6 +294,40 @@ export default function ReadyPackagesAdminPage() {
                 className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-fantas-blue focus:border-fantas-blue outline-none text-sm"
                 placeholder="Örn: Sürücü kursları için özel hazırlanan yüksek dönüşümlü şablon seti."
               />
+            </div>
+          </div>
+
+          {/* Fırsat Paketi Toggle */}
+          <div className={`rounded-2xl border-2 p-4 transition-all duration-300 ${
+            isFeatured 
+              ? 'border-orange-400 bg-gradient-to-r from-orange-50 to-amber-50 shadow-md shadow-orange-200/40' 
+              : 'border-gray-200 bg-gray-50'
+          }`}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className={`p-2.5 rounded-xl transition-all duration-300 ${
+                  isFeatured ? 'bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-lg shadow-orange-400/30' : 'bg-gray-200 text-gray-500'
+                }`}>
+                  <Flame className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-gray-900">🔥 Fırsat Paketi Olarak Öne Çıkar</h4>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    Aktif edildiğinde bu paket, hazır tasarım paketleri sayfasında en üstte ilgi çekici bir şekilde vurgulanır.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsFeatured(!isFeatured)}
+                className={`relative w-14 h-7 rounded-full transition-all duration-300 shrink-0 ${
+                  isFeatured ? 'bg-gradient-to-r from-orange-500 to-red-500 shadow-lg shadow-orange-400/30' : 'bg-gray-300'
+                }`}
+              >
+                <div className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-300 ${
+                  isFeatured ? 'left-7' : 'left-0.5'
+                }`} />
+              </button>
             </div>
           </div>
 
@@ -441,13 +482,24 @@ export default function ReadyPackagesAdminPage() {
               }
 
               return (
-                <div key={item.id} className="bg-gray-50 rounded-2xl p-5 border border-gray-200 flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div key={item.id} className={`rounded-2xl p-5 flex flex-col justify-between hover:shadow-md transition-shadow ${
+                  item.isFeatured 
+                    ? 'bg-gradient-to-br from-orange-50 to-amber-50 border-2 border-orange-300 shadow-md' 
+                    : 'bg-gray-50 border border-gray-200'
+                }`}>
                   <div>
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <span className="inline-block bg-blue-100 text-blue-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full mb-1">
-                          {item.badge}
-                        </span>
+                        <div className="flex items-center gap-1.5 flex-wrap mb-1">
+                          <span className="inline-block bg-blue-100 text-blue-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+                            {item.badge}
+                          </span>
+                          {item.isFeatured && (
+                            <span className="inline-flex items-center gap-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">
+                              <Flame className="w-3 h-3" /> FIRSAT PAKETİ
+                            </span>
+                          )}
+                        </div>
                         <h3 className="font-bold text-gray-900 text-base">{item.title}</h3>
                         <p className="text-xs text-gray-500 mt-1 leading-relaxed">{item.description}</p>
                       </div>

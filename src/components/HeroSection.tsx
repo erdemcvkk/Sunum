@@ -35,8 +35,8 @@ export default function HeroSection({ heroContent }: { heroContent?: HeroContent
     <section id="anasayfa" className="relative pt-28 pb-16 lg:pt-40 lg:pb-28 overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute top-0 right-0 w-[60%] h-full bg-gradient-to-l from-blue-50 to-transparent rounded-l-full opacity-70 -z-10 translate-x-1/4" />
-      <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-fantas-blue/5 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] bg-indigo-50 rounded-full blur-3xl -z-10" />
+      <div className="absolute -top-32 -right-32 w-[500px] max-w-full h-[500px] bg-fantas-blue/5 rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-0 -left-20 w-[400px] max-w-full h-[400px] bg-indigo-50 rounded-full blur-3xl -z-10" />
       
       {/* Dot Pattern */}
       <div className="absolute top-28 right-8 w-48 h-48 opacity-[0.08] -z-10" 
@@ -69,20 +69,22 @@ export default function HeroSection({ heroContent }: { heroContent?: HeroContent
             </motion.h1>
             
             <motion.p variants={itemVariants} className="text-base md:text-lg text-fantas-text-light mb-10 max-w-lg leading-relaxed">
-              Sürücü kursları için özel olarak hazırladığımız sosyal medya tasarımları ile markanızı dijitalde bir adım öne taşıyın.
+              {heroContent?.subtitle || 'Markanız için özel olarak hazırladığımız sosyal medya tasarımları ile markanızı dijitalde bir adım öne taşıyın.'}
             </motion.p>
             
             <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-14">
               <a 
                 href="#calismalarimiz" 
-                className="group bg-fantas-blue text-white px-8 py-3.5 rounded-full font-bold shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:bg-blue-700 transition-all duration-300 flex items-center gap-2"
+                data-track="hero-designs-btn"
+                className="group bg-fantas-blue text-white px-5 py-3 sm:px-8 sm:py-3.5 text-sm sm:text-base rounded-full font-bold shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:bg-blue-700 transition-all duration-300 flex items-center gap-2"
               >
                 TASARIMLARI İNCELE 
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </a>
               <a 
                 href="#paketler" 
-                className="group border-2 border-gray-200 text-fantas-dark px-8 py-3.5 rounded-full font-bold hover:border-fantas-blue hover:text-fantas-blue transition-all duration-300 bg-white flex items-center gap-2"
+                data-track="hero-packages-btn"
+                className="group border-2 border-gray-200 text-fantas-dark px-5 py-3 sm:px-8 sm:py-3.5 text-sm sm:text-base rounded-full font-bold hover:border-fantas-blue hover:text-fantas-blue transition-all duration-300 bg-white flex items-center gap-2"
               >
                 PAKETLERİ GÖR
                 <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
@@ -95,7 +97,7 @@ export default function HeroSection({ heroContent }: { heroContent?: HeroContent
                 <motion.div 
                   key={idx}
                   whileHover={{ x: 4 }}
-                  className="flex items-center gap-3 text-fantas-dark font-medium text-sm group cursor-default"
+                  className="flex items-center gap-3 text-fantas-dark font-medium text-xs sm:text-sm group cursor-default"
                 >
                   <div className="bg-blue-50 p-2.5 rounded-xl text-fantas-blue group-hover:bg-fantas-blue group-hover:text-white transition-all duration-300 shrink-0">
                     {feature.icon}
@@ -120,7 +122,7 @@ export default function HeroSection({ heroContent }: { heroContent?: HeroContent
             <motion.div 
               animate={{ y: [-8, 8, -8] }} 
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute top-12 left-0 lg:-left-2 w-28 h-28 sm:w-32 sm:h-32 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-2.5 z-40 border border-white rotate-[-8deg]"
+              className="hidden sm:block absolute top-12 left-0 lg:-left-2 w-28 h-28 sm:w-32 sm:h-32 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-2.5 z-40 border border-white rotate-[-8deg]"
             >
               <div className="w-full h-full bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex flex-col items-center justify-center text-white overflow-hidden relative">
                 <div className="text-[10px] font-bold tracking-wider opacity-80">KAMPANYA</div>
@@ -133,7 +135,7 @@ export default function HeroSection({ heroContent }: { heroContent?: HeroContent
             <motion.div 
               animate={{ y: [8, -8, 8] }} 
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-              className="absolute bottom-16 right-0 lg:right-2 w-36 sm:w-40 bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-3 z-40 border border-white rotate-[6deg]"
+              className="hidden sm:block absolute bottom-16 right-0 lg:right-2 w-36 sm:w-40 bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-3 z-40 border border-white rotate-[6deg]"
             >
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
@@ -148,7 +150,7 @@ export default function HeroSection({ heroContent }: { heroContent?: HeroContent
             <motion.div 
               animate={{ y: [-12, 12, -12], scale: [1, 1.05, 1] }} 
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="absolute top-1/4 -right-2 lg:right-4 w-14 h-14 bg-white rounded-full shadow-lg z-40 flex items-center justify-center border border-pink-100"
+              className="hidden sm:block absolute top-1/4 -right-2 lg:right-4 w-14 h-14 bg-white rounded-full shadow-lg z-40 flex items-center justify-center border border-pink-100"
             >
               <Heart className="w-6 h-6 text-red-500 fill-red-500" />
             </motion.div>
@@ -157,7 +159,7 @@ export default function HeroSection({ heroContent }: { heroContent?: HeroContent
             <motion.div 
               animate={{ y: [-6, 6, -6] }} 
               transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut" }}
-              className="absolute bottom-1/3 -left-4 lg:-left-8 bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-3 z-40 border border-white"
+              className="hidden sm:block absolute bottom-1/3 -left-4 lg:-left-8 bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-3 z-40 border border-white"
             >
               <div className="flex items-center gap-2">
                 <div className="flex -space-x-1.5">
@@ -170,7 +172,7 @@ export default function HeroSection({ heroContent }: { heroContent?: HeroContent
             </motion.div>
 
             {/* REALISTIC 3D IPHONE 16 PRO MAX FRAME (9:19 Ratio) */}
-            <div className="relative w-[280px] sm:w-[310px] aspect-[9/19] z-20 transition-all duration-500 hover:scale-[1.02]">
+            <div className="relative w-[240px] xs:w-[280px] sm:w-[310px] aspect-[9/19] z-20 transition-all duration-500 hover:scale-[1.02]">
               {/* Outer Body */}
               <div className="w-full h-full rounded-[52px] bg-gradient-to-b from-slate-700 via-slate-800 to-slate-950 p-[10px] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.45),0_15px_30px_-10px_rgba(0,71,255,0.15)] border border-slate-600/80 ring-1 ring-black/40 relative">
                 
@@ -210,10 +212,10 @@ export default function HeroSection({ heroContent }: { heroContent?: HeroContent
                     {/* Instagram Header */}
                     <div className="pt-1 pb-2.5 px-4 bg-white flex items-center justify-between border-b border-gray-50 z-20">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-fantas-blue to-indigo-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">S</div>
+                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-fantas-blue to-indigo-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">M</div>
                         <div>
-                          <div className="font-bold text-xs text-gray-900">surucu_kursu</div>
-                          <div className="text-[9px] text-gray-400">Sürücü Kursu</div>
+                          <div className="font-bold text-xs text-gray-900">markaniz</div>
+                          <div className="text-[9px] text-gray-400">Markanız</div>
                         </div>
                       </div>
                       <div className="text-gray-400 text-xs">•••</div>
@@ -225,14 +227,14 @@ export default function HeroSection({ heroContent }: { heroContent?: HeroContent
                       <div className="absolute bottom-10 -left-8 w-24 h-24 bg-white/5 rounded-full" />
                       
                       <div className="relative z-10 pt-2">
-                        <div className="text-white/70 font-semibold tracking-[0.2em] text-[9px] mb-2">YENİ DÖNEM KAYITLARI</div>
+                        <div className="text-white/70 font-semibold tracking-[0.2em] text-[9px] mb-2">SOSYAL MEDYA YÖNETİMİ</div>
                       </div>
                       <div className="relative z-10 pb-2">
                         <div className="text-white font-extrabold text-3xl leading-none mb-3">
-                          EHLİYET<br/>ALMANIN<br/><span className="text-yellow-300">TAM ZAMANI!</span>
+                          MARKANIZI<br/>DİJİTALDE<br/><span className="text-yellow-300">BÜYÜTÜN!</span>
                         </div>
                         <div className="inline-flex bg-white text-fantas-blue px-3.5 py-1.5 rounded-full font-bold text-[10px] shadow-lg">
-                          KONTENJANLAR SINIRLI
+                          HEMEN BİLGİ AL
                         </div>
                       </div>
                     </div>

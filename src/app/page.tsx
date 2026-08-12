@@ -2,7 +2,6 @@ import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import PortfolioCarousel from '@/components/PortfolioCarousel';
 import DesignGallery from '@/components/DesignGallery';
-import ReadyPackagesSection from '@/components/ReadyPackagesSection';
 import PricingSection from '@/components/PricingSection';
 import ProcessSection from '@/components/ProcessSection';
 import Footer from '@/components/Footer';
@@ -14,9 +13,6 @@ export default async function Home() {
   let packages: Array<{
     id: string; title: string; postCount: number; price: string;
     features: string; thumbnailImages: string; isPopular: boolean; order: number;
-  }> = [];
-  let readyPackages: Array<{
-    id: string; title: string; description: string; price: string; badge: string; imagesJson: string; order: number;
   }> = [];
   let portfolioItems: Array<{
     id: string; 
@@ -48,13 +44,7 @@ export default async function Home() {
     console.error("Error fetching packages:", error);
   }
 
-  try {
-    readyPackages = await prisma.readyPackage.findMany({
-      orderBy: { order: 'asc' }
-    }) as typeof readyPackages;
-  } catch (error) {
-    console.error("Error fetching readyPackages:", error);
-  }
+
 
   try {
     portfolioItems = await prisma.portfolioItem.findMany({
@@ -100,9 +90,9 @@ export default async function Home() {
   }
 
   const heroContent = {
-    badge: siteContentMap['hero_badge']?.textValue || 'SÜRÜCÜ KURSLARINA ÖZEL',
+    badge: siteContentMap['hero_badge']?.textValue || 'MARKANIZA ÖZEL',
     title: siteContentMap['hero_title']?.textValue || 'Sosyal Medya Tasarımı ile Fark Yaratın!',
-    subtitle: siteContentMap['hero_subtitle']?.textValue || 'Sürücü kursları için özel olarak hazırladığımız sosyal medya tasarımları ile markanızı dijitalde bir adım öne taşıyın.',
+    subtitle: siteContentMap['hero_subtitle']?.textValue || 'Markanız için özel olarak hazırladığımız sosyal medya tasarımları ile markanızı dijitalde bir adım öne taşıyın.',
     image: siteContentMap['hero_image']?.primaryImageUrl || null,
   };
 
@@ -118,9 +108,7 @@ export default async function Home() {
         <PortfolioCarousel items={portfolioItems} />
       </section>
       
-      <section id="hazir-paketler">
-        <ReadyPackagesSection items={readyPackages} />
-      </section>
+
 
       <section id="galeri">
         <DesignGallery images={galleryImages} categories={galleryCategories} />
