@@ -265,18 +265,16 @@ export default function PricingSection({ packages = [], showMonthlyNote = false 
           </div>
         </div>
 
-        {/* Optional Monthly Note */}
-        {showMonthlyNote && (
-          <div className="max-w-3xl mx-auto mt-4 bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5 shadow-sm text-center sm:text-left">
-            <div className="p-2 bg-emerald-100 text-emerald-700 rounded-xl shrink-0 hidden sm:block">
-              <Info className="w-5 h-5" />
-            </div>
-            <div className="text-xs sm:text-sm text-emerald-900 leading-relaxed">
-              <span className="font-bold text-emerald-950 block sm:inline">Aylık Paket Anlaşmaları: </span>
-              Aylık paket anlaşmalarında markanıza özel marketing planının oluşturulması ve sosyal medya paylaşımlarının düzenli olarak yapılması pakete dahildir.
-            </div>
+        {/* Monthly Note Box */}
+        <div className="max-w-3xl mx-auto mt-4 bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5 shadow-sm text-center sm:text-left">
+          <div className="p-2 bg-emerald-100 text-emerald-700 rounded-xl shrink-0 hidden sm:block">
+            <Info className="w-5 h-5" />
           </div>
-        )}
+          <div className="text-xs sm:text-sm text-emerald-900 leading-relaxed">
+            <span className="font-bold text-emerald-950 block sm:inline">Aylık Paket Anlaşmaları: </span>
+            Aylık paket anlaşmalarında markanıza özel marketing planının oluşturulması ve sosyal medya paylaşımlarının düzenli olarak yapılması pakete dahildir.
+          </div>
+        </div>
 
       </div>
     </section>

@@ -1,155 +1,104 @@
-import { PrismaClient } from '@prisma/client'
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
-
-const adapter = new PrismaBetterSqlite3({
-  url: 'file:./prisma/dev.db',
-})
-const prisma = new PrismaClient({ adapter })
+import { prisma } from '../src/lib/prisma'
 
 async function main() {
-  console.log('Seeding database...')
+  console.log('Seeding database with 4 packages...')
 
   // Clear existing data
   await prisma.package.deleteMany()
-  await prisma.portfolioItem.deleteMany()
-  await prisma.galleryImage.deleteMany()
-  await prisma.siteContent.deleteMany()
 
-  // Seed Packages
+  // Seed 4 Packages
   await prisma.package.createMany({
     data: [
       {
         title: 'BAŞLANGIÇ PAKETİ',
-        postCount: 10,
-        price: '₺1.999',
+        postCount: 6,
+        price: '6.999',
         features: JSON.stringify([
-          '2 Story Tasarımı',
+          '6 Post Tasarımı',
+          '6 Story Tasarımı',
+          'Marka Renklerinize Özel',
+          'Kendi Logonuzla Kullanım',
+          'İstediğiniz Araçlara Özel (Otomobil, Motosiklet, Tır & Kamyon)',
+          'Size Özel Şablon (Telefon Numarası, Adres vb.)',
+          'Özel Gün Tasarımları Dahil',
           '1 Revize Hakkı',
           'Standart Tasarım Desteği',
           '7 İş Günü İçerisinde Teslimat',
+          'Tek Seferlik Tasarım Paketi',
         ]),
         thumbnailImages: JSON.stringify([]),
         isPopular: false,
         order: 1,
+      },
+      {
+        title: 'STANDART PAKET',
+        postCount: 8,
+        price: '9.999',
+        features: JSON.stringify([
+          '8 Post Tasarımı',
+          '8 Story Tasarımı',
+          'Marka Renklerinize Özel',
+          'Kendi Logonuzla Kullanım',
+          'İstediğiniz Araçlara Özel (Otomobil, Motosiklet, Tır & Kamyon)',
+          'Size Özel Şablon (Telefon Numarası, Adres vb.)',
+          'Özel Gün Tasarımları Dahil',
+          '2 Revize Hakkı',
+          'Kampanya Tasarımları',
+          '7 İş Günü İçerisinde Teslimat',
+          'Tek Seferlik Tasarım Paketi',
+        ]),
+        thumbnailImages: JSON.stringify([]),
+        isPopular: false,
+        order: 2,
       },
       {
         title: 'PROFESYONEL PAKET',
-        postCount: 20,
-        price: '₺3.499',
+        postCount: 12,
+        price: '12.999',
         features: JSON.stringify([
-          '5 Story Tasarımı',
-          'Reels Kapakları',
+          '12 Post Tasarımı',
+          '12 Story Tasarımı',
+          'Marka Renklerinize Özel',
+          'Kendi Logonuzla Kullanım',
+          'İstediğiniz Araçlara Özel (Otomobil, Motosiklet, Tır & Kamyon)',
+          'Size Özel Şablon (Telefon Numarası, Adres vb.)',
+          'Özel Gün Tasarımları Dahil',
           '3 Revize Hakkı',
           'Özel Kampanya Tasarımları',
-          '7 İş Günü İçerisinde Teslimat',
+          'Öncelikli Destek',
+          '5-7 İş Günü İçerisinde Teslimat',
+          'Tek Seferlik Tasarım Paketi',
         ]),
         thumbnailImages: JSON.stringify([]),
         isPopular: true,
-        order: 2,
+        order: 3,
       },
       {
         title: 'PREMIUM PAKET',
-        postCount: 30,
-        price: '₺5.999',
+        postCount: 15,
+        price: '15.999',
         features: JSON.stringify([
-          '10 Story Tasarımı',
-          'Reels Kapakları',
-          'Sınırsız Revize Hakkı',
+          '15 Post Tasarımı',
+          '15 Story Tasarımı',
+          'Marka Renklerinize Özel',
+          'Kendi Logonuzla Kullanım',
+          'İstediğiniz Araçlara Özel (Otomobil, Motosiklet, Tır & Kamyon)',
+          'Size Özel Şablon (Telefon Numarası, Adres vb.)',
+          'Özel Gün Tasarımları Dahil',
+          '5 Revize Hakkı',
           'Özel Kampanya Tasarımları',
-          'Öncelikli Teslimat (5 İş Günü)',
-          'Aylık Strateji Danışmanlığı',
+          'Öncelikli Destek',
+          'Aylık İçerik Planlama Desteği',
+          'Tek Seferlik Tasarım Paketi',
         ]),
         thumbnailImages: JSON.stringify([]),
         isPopular: false,
-        order: 3,
+        order: 4,
       },
     ],
   })
 
-  // Seed Portfolio Items
-  await prisma.portfolioItem.createMany({
-    data: [
-      {
-        clientName: 'Marmara Sürücü Kursu',
-        mockupImageUrl: '/images/placeholder-mockup-1.svg',
-        order: 1,
-      },
-      {
-        clientName: 'Yaman Sürücü Kursu',
-        mockupImageUrl: '/images/placeholder-mockup-2.svg',
-        order: 2,
-      },
-      {
-        clientName: 'Trakya Sürücü Kursu',
-        mockupImageUrl: '/images/placeholder-mockup-3.svg',
-        order: 3,
-      },
-    ],
-  })
-
-  // Seed Gallery Images
-  const categories = [
-    'Kampanya',
-    'Kayıt Duyuruları',
-    'Başarı Hikayeleri',
-    'Tır & Kamyon',
-    'Motosiklet',
-    'Bayram',
-    'Reels Kapakları',
-  ]
-
-  const galleryData = [
-    { title: 'Ehliyet Almanın Doğru Yolu', category: 'Kampanya' },
-    { title: 'Kampanya Zamanı! %30', category: 'Kampanya' },
-    { title: 'Yolda Güven Hayat Kurtarır', category: 'Başarı Hikayeleri' },
-    { title: 'Kayıtlarımız Devam Ediyor!', category: 'Kayıt Duyuruları' },
-    { title: 'Tecrübe Kazan Güvenle Sür!', category: 'Başarı Hikayeleri' },
-    { title: 'Dikkatli Sür Sevdiklerin Seni Bekler', category: 'Kampanya' },
-    { title: 'Sınavda Değil Yolda Başarı!', category: 'Başarı Hikayeleri' },
-    { title: 'Güvenli Sürüş Parlak Gelecek!', category: 'Kampanya' },
-    { title: 'Tır & Kamyon Ehliyeti Başladı!', category: 'Tır & Kamyon' },
-    { title: 'Motorunu Seç Yoluna Çık!', category: 'Motosiklet' },
-    { title: 'Bayramımız Mübarek Olsun!', category: 'Bayram' },
-    { title: 'Yeni Başlangıçlar İçin Doğru Adres!', category: 'Kayıt Duyuruları' },
-  ]
-
-  await prisma.galleryImage.createMany({
-    data: galleryData.map((item, index) => ({
-      title: item.title,
-      category: item.category,
-      imageUrl: `/images/gallery-placeholder-${index + 1}.svg`,
-      order: index + 1,
-    })),
-  })
-
-  // Seed Site Content
-  await prisma.siteContent.createMany({
-    data: [
-      {
-        sectionKey: 'hero_badge',
-        textValue: 'SÜRÜCÜ KURSLARINA ÖZEL',
-      },
-      {
-        sectionKey: 'hero_title',
-        textValue: 'Sosyal Medya Tasarımı ile Fark Yaratın!',
-      },
-      {
-        sectionKey: 'hero_subtitle',
-        textValue:
-          'Sürücü kursları için özel olarak hazırladığımız sosyal medya tasarımları ile markanızı dijitalde bir adım öne taşıyın.',
-      },
-      {
-        sectionKey: 'hero_image',
-        primaryImageUrl: '/images/hero-mockup.svg',
-      },
-      {
-        sectionKey: 'cta_whatsapp',
-        textValue: 'https://wa.me/905551234567',
-      },
-    ],
-  })
-
-  console.log('Database seeded successfully!')
+  console.log('Database seeded successfully with 4 packages!')
 }
 
 main()

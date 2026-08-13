@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     const cookieStore = await cookies();
     const adminCookie = cookieStore.get(ADMIN_COOKIE_NAME);
     if (adminCookie?.value === 'authenticated') {
-      return NextResponse.json({ tracked: false, reason: 'admin' }, { status: 204 });
+      return NextResponse.json({ tracked: false, reason: 'admin' }, { status: 200 });
     }
 
     const body = await request.json();
