@@ -21,6 +21,11 @@ export const metadata: Metadata = {
       "Sürücü kursları için özel sosyal medya tasarımları ile markanızı dijitalde bir adım öne taşıyın.",
     type: "website",
   },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export const viewport: Viewport = {

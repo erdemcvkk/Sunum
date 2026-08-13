@@ -155,18 +155,18 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 rounded-xl text-fantas-text hover:text-fantas-blue hover:bg-gray-50 transition-colors z-50 relative"
+            className="lg:hidden p-2.5 rounded-xl text-gray-800 hover:text-fantas-blue hover:bg-gray-100/80 transition-colors z-50 relative flex items-center justify-center min-w-[44px] min-h-[44px]"
             aria-label="Menüyü Aç/Kapat"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={26} className="text-gray-900" /> : <Menu size={26} className="text-gray-900" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-white z-45 flex flex-col pt-24 px-6 lg:hidden animate-in fade-in slide-in-from-top duration-300">
-          <nav className="flex flex-col gap-4 mb-8">
+        <div className="fixed inset-0 bg-white/98 backdrop-blur-xl z-40 flex flex-col pt-24 pb-8 px-6 lg:hidden overflow-y-auto min-h-screen">
+          <nav className="flex flex-col gap-2 mb-8">
             {navLinks.map((link) => {
               const isActive = link.isExternal 
                 ? pathname === link.href 
@@ -178,11 +178,12 @@ export default function Navbar() {
                   href={link.href}
                   data-track={link.track}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`text-xl font-bold py-2 border-b border-gray-100 ${
-                    isActive ? 'text-fantas-blue' : 'text-fantas-text'
+                  className={`text-base font-bold py-3.5 px-4 rounded-2xl transition-all border-b border-gray-100 flex items-center justify-between ${
+                    isActive ? 'text-fantas-blue bg-blue-50/80' : 'text-gray-800 hover:text-fantas-blue hover:bg-gray-50'
                   }`}
                 >
-                  {link.name}
+                  <span>{link.name}</span>
+                  <ArrowRight className="w-4 h-4 opacity-40" />
                 </Link>
               ) : (
                 <a
@@ -190,11 +191,12 @@ export default function Navbar() {
                   href={link.href}
                   data-track={link.track}
                   onClick={(e) => handleNavClick(e, link.href, link.isExternal)}
-                  className={`text-xl font-bold py-2 border-b border-gray-100 ${
-                    isActive ? 'text-fantas-blue' : 'text-fantas-text'
+                  className={`text-base font-bold py-3.5 px-4 rounded-2xl transition-all border-b border-gray-100 flex items-center justify-between cursor-pointer ${
+                    isActive ? 'text-fantas-blue bg-blue-50/80' : 'text-gray-800 hover:text-fantas-blue hover:bg-gray-50'
                   }`}
                 >
-                  {link.name}
+                  <span>{link.name}</span>
+                  <ArrowRight className="w-4 h-4 opacity-40" />
                 </a>
               );
             })}
@@ -203,7 +205,7 @@ export default function Navbar() {
             href="https://wa.me/905466308246"
             target="_blank"
             rel="noreferrer"
-            className="bg-fantas-blue text-white py-4 rounded-full font-bold text-center shadow-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
+            className="w-full bg-fantas-blue text-white py-4 rounded-2xl font-extrabold text-center shadow-lg shadow-blue-500/25 hover:bg-blue-700 transition-all flex items-center justify-center gap-2 text-base mt-2"
           >
             Hemen Başla
             <ArrowRight className="w-5 h-5" />
