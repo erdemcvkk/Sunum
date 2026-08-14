@@ -78,6 +78,7 @@ model ReadyPackage {
   badge       String   @default("Hazır Tasarım Seti") // Etiket/Rozet
   imagesJson  String   @default("[]") // Paket içindeki görseller (JSON string)
   isFeatured  Boolean  @default(false) // Fırsat Paketi olarak öne çıkar
+  isSold      Boolean  @default(false) // Satıldı (Satıştan kaldırıldı)
   order       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

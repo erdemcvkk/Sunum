@@ -33,6 +33,7 @@ type ReadyPackage = {
   badge: string
   imagesJson: string
   isFeatured: boolean
+  isSold: boolean
   order: number
 }
 
@@ -48,6 +49,7 @@ export default function ReadyPackagesAdminPage() {
   const [price, setPrice] = useState('1.499')
   const [badge, setBadge] = useState('Hazır Tasarım Seti')
   const [isFeatured, setIsFeatured] = useState(false)
+  const [isSold, setIsSold] = useState(false)
   const [packageImages, setPackageImages] = useState<string[]>([])
 
   const [uploadingImages, setUploadingImages] = useState(false)
@@ -77,6 +79,7 @@ export default function ReadyPackagesAdminPage() {
     setPrice('1.499')
     setBadge('Hazır Tasarım Seti')
     setIsFeatured(false)
+    setIsSold(false)
     setPackageImages([])
   }
 
@@ -88,6 +91,7 @@ export default function ReadyPackagesAdminPage() {
     setPrice(item.price || '1.499')
     setBadge(item.badge || 'Hazır Tasarım Seti')
     setIsFeatured(item.isFeatured || false)
+    setIsSold(item.isSold || false)
 
     try {
       setPackageImages(JSON.parse(item.imagesJson || '[]'))
@@ -176,6 +180,7 @@ export default function ReadyPackagesAdminPage() {
           badge,
           imagesJson: JSON.stringify(packageImages),
           isFeatured,
+          isSold,
         })
         resetForm()
         await loadItems()
@@ -193,6 +198,7 @@ export default function ReadyPackagesAdminPage() {
       formData.append('badge', badge)
       formData.append('imagesJson', JSON.stringify(packageImages))
       formData.append('isFeatured', String(isFeatured))
+      formData.append('isSold', String(isSold))
 
       try {
         await createReadyPackage(formData)
@@ -297,37 +303,74 @@ export default function ReadyPackagesAdminPage() {
             </div>
           </div>
 
-          {/* Fırsat Paketi Toggle */}
-          <div className={`rounded-2xl border-2 p-4 transition-all duration-300 ${
-            isFeatured 
-              ? 'border-orange-400 bg-gradient-to-r from-orange-50 to-amber-50 shadow-md shadow-orange-200/40' 
-              : 'border-gray-200 bg-gray-50'
-          }`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className={`p-2.5 rounded-xl transition-all duration-300 ${
-                  isFeatured ? 'bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-lg shadow-orange-400/30' : 'bg-gray-200 text-gray-500'
-                }`}>
-                  <Flame className="w-5 h-5" />
+          {/* Fırsat Paketi & Satıldı Toggle Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Fırsat Paketi Toggle */}
+            <div className={`rounded-2xl border-2 p-4 transition-all duration-300 ${
+              isFeatured 
+                ? 'border-orange-400 bg-gradient-to-r from-orange-50 to-amber-50 shadow-md shadow-orange-200/40' 
+                : 'border-gray-200 bg-gray-50'
+            }`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`p-2.5 rounded-xl transition-all duration-300 ${
+                    isFeatured ? 'bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-lg shadow-orange-400/30' : 'bg-gray-200 text-gray-500'
+                  }`}>
+                    <Flame className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900">🔥 Fırsat Paketi Olarak Öne Çıkar</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      Aktif edildiğinde bu paket en üstte vurgulanır.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-sm font-bold text-gray-900">🔥 Fırsat Paketi Olarak Öne Çıkar</h4>
-                  <p className="text-xs text-gray-500 mt-0.5">
-                    Aktif edildiğinde bu paket, hazır tasarım paketleri sayfasında en üstte ilgi çekici bir şekilde vurgulanır.
-                  </p>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsFeatured(!isFeatured)}
+                  className={`relative w-14 h-7 rounded-full transition-all duration-300 shrink-0 ${
+                    isFeatured ? 'bg-gradient-to-r from-orange-500 to-red-500 shadow-lg shadow-orange-400/30' : 'bg-gray-300'
+                  }`}
+                >
+                  <div className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-300 ${
+                    isFeatured ? 'left-7' : 'left-0.5'
+                  }`} />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setIsFeatured(!isFeatured)}
-                className={`relative w-14 h-7 rounded-full transition-all duration-300 shrink-0 ${
-                  isFeatured ? 'bg-gradient-to-r from-orange-500 to-red-500 shadow-lg shadow-orange-400/30' : 'bg-gray-300'
-                }`}
-              >
-                <div className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-300 ${
-                  isFeatured ? 'left-7' : 'left-0.5'
-                }`} />
-              </button>
+            </div>
+
+            {/* Satıldı Toggle */}
+            <div className={`rounded-2xl border-2 p-4 transition-all duration-300 ${
+              isSold 
+                ? 'border-rose-400 bg-gradient-to-r from-rose-50 to-red-50 shadow-md shadow-rose-200/40' 
+                : 'border-gray-200 bg-gray-50'
+            }`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`p-2.5 rounded-xl transition-all duration-300 ${
+                    isSold ? 'bg-rose-600 text-white shadow-lg shadow-rose-400/30' : 'bg-gray-200 text-gray-500'
+                  }`}>
+                    <Tag className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900">🚫 Satıldı Olarak İşaretle</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      İşaretlendiğinde paket sitede görünür ancak detay inceleme kapatılır.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsSold(!isSold)}
+                  className={`relative w-14 h-7 rounded-full transition-all duration-300 shrink-0 ${
+                    isSold ? 'bg-rose-600 shadow-lg shadow-rose-400/30' : 'bg-gray-300'
+                  }`}
+                >
+                  <div className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-300 ${
+                    isSold ? 'left-7' : 'left-0.5'
+                  }`} />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -497,6 +540,11 @@ export default function ReadyPackagesAdminPage() {
                           {item.isFeatured && (
                             <span className="inline-flex items-center gap-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">
                               <Flame className="w-3 h-3" /> FIRSAT PAKETİ
+                            </span>
+                          )}
+                          {item.isSold && (
+                            <span className="inline-flex items-center gap-1 bg-rose-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-sm">
+                              🚫 SATILDI
                             </span>
                           )}
                         </div>

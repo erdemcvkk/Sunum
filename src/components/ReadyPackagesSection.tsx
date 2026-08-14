@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Eye, X, ChevronLeft, ChevronRight, MessageCircle, Sparkles, ShieldCheck, Flame, Zap, Grid } from 'lucide-react';
+import { Eye, X, ChevronLeft, ChevronRight, MessageCircle, ShieldCheck, Flame, Zap, Grid, Lock } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
@@ -16,6 +16,7 @@ interface ReadyPackageItem {
   badge?: string;
   imagesJson: string;
   isFeatured?: boolean;
+  isSold?: boolean;
   order?: number;
 }
 
@@ -26,6 +27,7 @@ const DEFAULT_READY_PACKAGES: ReadyPackageItem[] = [
     description: 'Sürücü kursları için özel hazırlanan, kayıt dönemlerinde dönüşümleri artıran 12 adet yüksek çözünürlüklü sosyal medya tasarım seti.',
     price: '1.499',
     badge: '⚡ Çok Satan Paket',
+    isSold: false,
     imagesJson: JSON.stringify([
       '/tasarimlar/optimized/thumbs/marmara-reklam-post.webp',
       '/tasarimlar/optimized/thumbs/06-07-2026-marmara-post.webp',
@@ -39,6 +41,7 @@ const DEFAULT_READY_PACKAGES: ReadyPackageItem[] = [
     description: 'A1, A2, A Sınıfı motor ve B sınıfı birebir direksiyon eğitimlerini öne çıkaran hazır tasarım seti.',
     price: '1.299',
     badge: '🎯 Popüler Şablon',
+    isSold: false,
     imagesJson: JSON.stringify([
       '/tasarimlar/optimized/thumbs/yaman-reklam-post.webp',
       '/tasarimlar/optimized/thumbs/06-07-2026-yaman-post.webp',
@@ -64,6 +67,7 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
   const [showAllRegularModal, setShowAllRegularModal] = useState(false);
 
   const openPackagePreview = (pkg: ReadyPackageItem) => {
+    if (pkg.isSold) return; // Prevent inspecting sold packages
     setActiveModalPackage(pkg);
     setSelectedLargeImageIndex(null);
   };
@@ -129,6 +133,17 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl relative z-10">
 
+        {/* ===== INFORMATIONAL DISCLAIMER BANNER BOX ===== */}
+        <div className="max-w-6xl mx-auto mb-8 bg-gradient-to-r from-blue-50 via-indigo-50/70 to-blue-50 border border-blue-200/80 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5 shadow-sm text-slate-800">
+          <div className="p-2 bg-blue-600 text-white rounded-xl shrink-0 hidden sm:flex items-center justify-center shadow-md shadow-blue-500/20">
+            <ShieldCheck className="w-5 h-5" />
+          </div>
+          <div className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <span className="font-extrabold text-blue-900 block sm:inline">🔒 Tek Sürücü Kursuna Özel Tasarımlar: </span>
+            Hazır tasarım paketlerimiz tek bir sürücü kursuna özeldir. Satın alma işlemi tamamlandıktan sonra aynı tasarım seti <strong>başka hiçbir kursa satılmamak üzere satıştan kaldırılır</strong> ve satıldı olarak işaretlenir.
+          </div>
+        </div>
+
         {/* ===== FEATURED / FIRSAT PAKETLERİ SECTION ===== */}
         {featuredItems.length > 0 && (
           <div className="max-w-6xl mx-auto mb-12">
@@ -179,37 +194,55 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
               >
                 {featuredItems.map((pkg) => {
                   const pkgImages = getPackageImages(pkg);
+                  const isSold = Boolean(pkg.isSold);
+
                   return (
                     <SwiperSlide key={`featured-${pkg.id}`}>
-                      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-orange-500 via-red-500 to-pink-600 p-[2px] shadow-2xl shadow-orange-500/20">
+                      <div className={`relative rounded-3xl overflow-hidden p-[2px] shadow-2xl transition-all duration-300 ${
+                        isSold 
+                          ? 'bg-slate-300 shadow-slate-200 opacity-90' 
+                          : 'bg-gradient-to-br from-orange-500 via-red-500 to-pink-600 shadow-orange-500/20'
+                      }`}>
                         <div className="bg-white rounded-[22px] p-6 sm:p-8 relative overflow-hidden">
                           <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-orange-100 to-transparent rounded-full blur-3xl opacity-60 pointer-events-none" />
                           <div className="absolute bottom-0 left-0 w-56 h-56 bg-gradient-to-tr from-red-50 to-transparent rounded-full blur-3xl opacity-40 pointer-events-none" />
 
                           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 relative z-10">
                             <div className="flex items-center gap-3">
-                              <div className="bg-gradient-to-br from-orange-500 to-red-500 p-2.5 rounded-2xl text-white shadow-lg shadow-orange-400/30 animate-pulse">
-                                <Flame className="w-6 h-6" />
+                              <div className={`p-2.5 rounded-2xl text-white shadow-lg ${
+                                isSold ? 'bg-slate-500 shadow-slate-300' : 'bg-gradient-to-br from-orange-500 to-red-500 shadow-orange-400/30 animate-pulse'
+                              }`}>
+                                {isSold ? <Lock className="w-6 h-6" /> : <Flame className="w-6 h-6" />}
                               </div>
                               <div>
                                 <div className="flex items-center gap-2 flex-wrap">
-                                  <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3.5 py-1 rounded-full text-xs font-extrabold tracking-wider uppercase shadow-md">
-                                    <Zap className="w-3.5 h-3.5" /> FIRSAT PAKETİ
-                                  </span>
+                                  {isSold ? (
+                                    <span className="inline-flex items-center gap-1.5 bg-rose-600 text-white px-3.5 py-1 rounded-full text-xs font-extrabold tracking-wider uppercase shadow-md">
+                                      🚫 SATILDI (SATIŞTAN KALKTI)
+                                    </span>
+                                  ) : (
+                                    <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3.5 py-1 rounded-full text-xs font-extrabold tracking-wider uppercase shadow-md">
+                                      <Zap className="w-3.5 h-3.5" /> FIRSAT PAKETİ
+                                    </span>
+                                  )}
                                   {pkg.badge && (
-                                    <span className="bg-orange-50 text-orange-700 border border-orange-200 px-3 py-1 rounded-full text-xs font-bold">
+                                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                      isSold ? 'bg-slate-100 text-slate-500 border border-slate-200' : 'bg-orange-50 text-orange-700 border border-orange-200'
+                                    }`}>
                                       {pkg.badge}
                                     </span>
                                   )}
                                 </div>
                                 <span className="text-xs text-slate-500 mt-1 flex items-center gap-1">
-                                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Sınırlı Süre Teklifi
+                                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Tek Kuruma Özel Tasarım
                                 </span>
                               </div>
                             </div>
                             <div className="text-right">
                               <span className="text-xs text-slate-400 block font-medium">Paket Fiyatı</span>
-                              <span className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 tracking-tight">
+                              <span className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                                isSold ? 'text-slate-400 line-through' : 'text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500'
+                              }`}>
                                 ₺{pkg.price}
                               </span>
                             </div>
@@ -222,36 +255,64 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
                             <div className="mb-6 relative z-10">
                               <div className="flex justify-between items-center text-xs text-slate-400 mb-2 font-medium">
                                 <span>Paket İçeriği ({pkgImages.length} Görsel)</span>
-                                <span className="text-orange-500 hover:underline cursor-pointer flex items-center gap-1 font-semibold" onClick={() => openPackagePreview(pkg)}>
-                                  <Eye className="w-3.5 h-3.5" /> Tümünü İncele
-                                </span>
+                                {!isSold ? (
+                                  <span className="text-orange-500 hover:underline cursor-pointer flex items-center gap-1 font-semibold" onClick={() => openPackagePreview(pkg)}>
+                                    <Eye className="w-3.5 h-3.5" /> Tümünü İncele
+                                  </span>
+                                ) : (
+                                  <span className="text-rose-500 font-semibold flex items-center gap-1">
+                                    <Lock className="w-3.5 h-3.5" /> İnceleme Kapalı (Satıldı)
+                                  </span>
+                                )}
                               </div>
-                              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 cursor-pointer select-none" onClick={() => openPackagePreview(pkg)} onContextMenu={(e) => e.preventDefault()}>
+                              <div 
+                                className={`grid grid-cols-4 sm:grid-cols-6 gap-2 select-none relative ${isSold ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'}`} 
+                                onClick={() => !isSold && openPackagePreview(pkg)} 
+                                onContextMenu={(e) => e.preventDefault()}
+                              >
                                 {pkgImages.slice(0, 6).map((imgUrl, i) => (
-                                  <div key={i} className="aspect-[4/5] bg-slate-100 rounded-xl overflow-hidden relative border border-orange-200 group/img">
+                                  <div key={i} className="aspect-[4/5] bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200 group/img">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img src={imgUrl} alt={`${pkg.title} Görsel ${i + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-110 pointer-events-none" draggable={false} />
-                                    <div className="absolute inset-0 bg-black/5 pointer-events-none flex items-center justify-center">
-                                      <span className="text-[8px] text-white/50 font-extrabold tracking-widest uppercase -rotate-12 border-y border-white/15 px-1 bg-black/10">ÖRNEK</span>
+                                    <div className="absolute inset-0 bg-black/10 pointer-events-none flex items-center justify-center">
+                                      <span className="text-[8px] text-white/60 font-extrabold tracking-widest uppercase -rotate-12 border-y border-white/20 px-1 bg-black/20">
+                                        {isSold ? 'SATILDI' : 'ÖRNEK'}
+                                      </span>
                                     </div>
                                   </div>
                                 ))}
+
+                                {isSold && (
+                                  <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] rounded-xl flex items-center justify-center text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase border border-rose-500/30 shadow-lg">
+                                    <span className="bg-rose-600/90 text-white px-3 py-1 rounded-lg flex items-center gap-1.5 shadow-md">
+                                      <Lock className="w-4 h-4" /> TASARIM SATILMIŞTIR (İNCELENEMEZ)
+                                    </span>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           )}
 
                           <div className="flex flex-col sm:flex-row gap-3 relative z-10">
-                            <button data-track="ready-package-preview" onClick={() => openPackagePreview(pkg)} className="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-sm transition-all flex items-center justify-center gap-2">
-                              <Eye className="w-4 h-4" /> İncele
-                            </button>
-                            <a
-                              data-track="featured-package-buy"
-                              href={`https://wa.me/905466308246?text=${encodeURIComponent(`Merhaba, "${pkg.title}" Fırsat Paketi hakkında bilgi almak istiyorum.`)}`}
-                              target="_blank" rel="noreferrer"
-                              className="flex-1 px-6 py-3.5 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-2xl font-extrabold text-sm transition-all shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2"
-                            >
-                              <MessageCircle className="w-5 h-5" /> FIRSATI YAKALA
-                            </a>
+                            {!isSold ? (
+                              <>
+                                <button data-track="ready-package-preview" onClick={() => openPackagePreview(pkg)} className="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-sm transition-all flex items-center justify-center gap-2">
+                                  <Eye className="w-4 h-4" /> İncele
+                                </button>
+                                <a
+                                  data-track="featured-package-buy"
+                                  href={`https://wa.me/905466308246?text=${encodeURIComponent(`Merhaba, "${pkg.title}" Fırsat Paketi hakkında bilgi almak istiyorum.`)}`}
+                                  target="_blank" rel="noreferrer"
+                                  className="flex-1 px-6 py-3.5 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-2xl font-extrabold text-sm transition-all shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2"
+                                >
+                                  <MessageCircle className="w-5 h-5" /> FIRSATI YAKALA
+                                </a>
+                              </>
+                            ) : (
+                              <div className="w-full py-3.5 bg-slate-200 border border-slate-300 text-slate-500 rounded-2xl font-extrabold text-sm text-center flex items-center justify-center gap-2 cursor-not-allowed">
+                                <Lock className="w-4 h-4 text-slate-400" /> BU TASARIM SETİ SATILMIŞTIR VE SATIŞTAN KALKMIŞTIR
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -316,16 +377,28 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
               >
                 {regularItems.map((pkg, idx) => {
                   const pkgImages = getPackageImages(pkg);
+                  const isSold = Boolean(pkg.isSold);
+
                   return (
                     <SwiperSlide key={pkg.id || idx} className="!h-auto">
-                      <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 group h-full">
+                      <div className={`border rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 group h-full relative ${
+                        isSold 
+                          ? 'bg-slate-100/90 border-slate-300 opacity-90' 
+                          : 'bg-slate-50 border-slate-200 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/5'
+                      }`}>
                         <div>
                           <div className="flex items-center justify-between gap-3 mb-4">
-                            <span className="bg-blue-50 text-blue-600 border border-blue-100 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase">
-                              {pkg.badge || 'Hazır Tasarım Seti'}
-                            </span>
+                            {isSold ? (
+                              <span className="bg-rose-600 text-white border border-rose-700 px-3 py-1 rounded-full text-xs font-extrabold tracking-wide uppercase flex items-center gap-1 shadow-sm">
+                                🚫 SATILDI
+                              </span>
+                            ) : (
+                              <span className="bg-blue-50 text-blue-600 border border-blue-100 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase">
+                                {pkg.badge || 'Hazır Tasarım Seti'}
+                              </span>
+                            )}
                             <span className="text-slate-500 text-xs font-semibold flex items-center gap-1">
-                              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Tam Uyumlu
+                              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Tek Kuruma Özel
                             </span>
                           </div>
 
@@ -333,23 +406,43 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
                           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">{pkg.description}</p>
 
                           {pkgImages.length > 0 && (
-                            <div className="mb-6">
+                            <div className="mb-6 relative">
                               <div className="flex justify-between items-center text-xs text-slate-400 mb-2 font-medium">
                                 <span>Paket İçeriği ({pkgImages.length} Görsel)</span>
-                                <span className="text-blue-500 group-hover:underline cursor-pointer flex items-center gap-1 font-semibold" onClick={() => openPackagePreview(pkg)}>
-                                  <Eye className="w-3.5 h-3.5" /> Tümünü İncele
-                                </span>
+                                {!isSold ? (
+                                  <span className="text-blue-500 group-hover:underline cursor-pointer flex items-center gap-1 font-semibold" onClick={() => openPackagePreview(pkg)}>
+                                    <Eye className="w-3.5 h-3.5" /> Tümünü İncele
+                                  </span>
+                                ) : (
+                                  <span className="text-rose-500 font-semibold flex items-center gap-1">
+                                    <Lock className="w-3.5 h-3.5" /> İnceleme Kapalı (Satıldı)
+                                  </span>
+                                )}
                               </div>
-                              <div className="grid grid-cols-4 gap-2 cursor-pointer select-none" onClick={() => openPackagePreview(pkg)} onContextMenu={(e) => e.preventDefault()}>
+                              <div 
+                                className={`grid grid-cols-4 gap-2 select-none relative ${isSold ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'}`} 
+                                onClick={() => !isSold && openPackagePreview(pkg)} 
+                                onContextMenu={(e) => e.preventDefault()}
+                              >
                                 {pkgImages.slice(0, 4).map((imgUrl, i) => (
                                   <div key={i} className="aspect-[4/5] bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200 group/img">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img src={imgUrl} alt={`${pkg.title} Görsel ${i + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-110 pointer-events-none" draggable={false} />
                                     <div className="absolute inset-0 bg-black/5 pointer-events-none flex items-center justify-center">
-                                      <span className="text-[8px] text-white/50 font-extrabold tracking-widest uppercase -rotate-12 border-y border-white/15 px-1 bg-black/10">ÖRNEK</span>
+                                      <span className="text-[8px] text-white/50 font-extrabold tracking-widest uppercase -rotate-12 border-y border-white/15 px-1 bg-black/10">
+                                        {isSold ? 'SATILDI' : 'ÖRNEK'}
+                                      </span>
                                     </div>
                                   </div>
                                 ))}
+
+                                {isSold && (
+                                  <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-[2px] rounded-xl flex items-center justify-center text-white font-extrabold text-xs tracking-wider uppercase border border-rose-500/30 text-center p-2">
+                                    <span className="bg-rose-600/90 text-white px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-md">
+                                      <Lock className="w-3.5 h-3.5" /> SATILMIŞTIR (İNCELENEMEZ)
+                                    </span>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           )}
@@ -358,20 +451,30 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
                         <div className="pt-5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 mt-2">
                           <div>
                             <span className="text-xs text-slate-400 block font-medium">Paket Fiyatı</span>
-                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">₺{pkg.price}</span>
+                            <span className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${isSold ? 'text-slate-400 line-through' : 'text-slate-900'}`}>
+                              ₺{pkg.price}
+                            </span>
                           </div>
                           <div className="flex gap-2 w-full sm:w-auto">
-                            <button data-track="ready-package-preview" onClick={() => openPackagePreview(pkg)} className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-xs transition-all flex items-center justify-center gap-1.5">
-                              <Eye className="w-4 h-4" /> İncele
-                            </button>
-                            <a
-                              data-track="ready-package-buy"
-                              href={`https://wa.me/905466308246?text=${encodeURIComponent(`Merhaba, "${pkg.title}" hazır paket tasarımı hakkında bilgi almak istiyorum.`)}`}
-                              target="_blank" rel="noreferrer"
-                              className="flex-1 sm:flex-initial px-5 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-2xl font-extrabold text-xs transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
-                            >
-                              <MessageCircle className="w-4 h-4" /> PAKETİ AL
-                            </a>
+                            {!isSold ? (
+                              <>
+                                <button data-track="ready-package-preview" onClick={() => openPackagePreview(pkg)} className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-xs transition-all flex items-center justify-center gap-1.5">
+                                  <Eye className="w-4 h-4" /> İncele
+                                </button>
+                                <a
+                                  data-track="ready-package-buy"
+                                  href={`https://wa.me/905466308246?text=${encodeURIComponent(`Merhaba, "${pkg.title}" hazır paket tasarımı hakkında bilgi almak istiyorum.`)}`}
+                                  target="_blank" rel="noreferrer"
+                                  className="flex-1 sm:flex-initial px-5 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-2xl font-extrabold text-xs transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
+                                >
+                                  <MessageCircle className="w-4 h-4" /> PAKETİ AL
+                                </a>
+                              </>
+                            ) : (
+                              <div className="w-full px-4 py-3 bg-slate-200 border border-slate-300 text-slate-500 rounded-2xl font-extrabold text-xs text-center flex items-center justify-center gap-1.5 cursor-not-allowed">
+                                <Lock className="w-3.5 h-3.5 text-slate-400" /> BU TASARIM SATILMIŞTIR
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -421,20 +524,32 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
               <div className="flex-1 overflow-y-auto max-h-[65vh] pr-2 space-y-6">
                 {featuredItems.map((pkg) => {
                   const pkgImages = getPackageImages(pkg);
+                  const isSold = Boolean(pkg.isSold);
+
                   return (
-                    <div key={pkg.id} className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-orange-500 via-red-500 to-pink-600 p-[2px]">
+                    <div key={pkg.id} className={`relative rounded-2xl overflow-hidden p-[2px] ${
+                      isSold ? 'bg-slate-300 opacity-90' : 'bg-gradient-to-br from-orange-500 via-red-500 to-pink-600'
+                    }`}>
                       <div className="bg-white rounded-[14px] p-5 sm:p-6">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
-                          <span className="inline-flex items-center gap-1 bg-orange-500 text-white text-[11px] font-extrabold px-3 py-0.5 rounded-full uppercase">
-                            <Zap className="w-3 h-3" /> FIRSAT PAKETİ
+                          {isSold ? (
+                            <span className="inline-flex items-center gap-1 bg-rose-600 text-white text-[11px] font-extrabold px-3 py-0.5 rounded-full uppercase">
+                              🚫 SATILDI (SATIŞTAN KALKTI)
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 bg-orange-500 text-white text-[11px] font-extrabold px-3 py-0.5 rounded-full uppercase">
+                              <Zap className="w-3 h-3" /> FIRSAT PAKETİ
+                            </span>
+                          )}
+                          <span className={`text-2xl font-extrabold ${isSold ? 'text-slate-400 line-through' : 'text-orange-600'}`}>
+                            ₺{pkg.price}
                           </span>
-                          <span className="text-2xl font-extrabold text-orange-600">₺{pkg.price}</span>
                         </div>
                         <h4 className="text-lg font-bold text-slate-900 mb-1">{pkg.title}</h4>
                         <p className="text-xs text-slate-600 mb-4">{pkg.description}</p>
                         
                         {pkgImages.length > 0 && (
-                          <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 mb-4">
+                          <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 mb-4 relative">
                             {pkgImages.slice(0, 6).map((imgUrl, i) => (
                               <div key={i} className="aspect-[4/5] bg-slate-100 rounded-lg overflow-hidden relative border border-orange-200">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -445,16 +560,24 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
                         )}
 
                         <div className="flex gap-2">
-                          <button onClick={() => { setShowAllFeaturedModal(false); openPackagePreview(pkg); }} className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs">
-                            <Eye className="w-4 h-4 inline mr-1" /> İncele
-                          </button>
-                          <a
-                            href={`https://wa.me/905466308246?text=${encodeURIComponent(`Merhaba, "${pkg.title}" Fırsat Paketi hakkında bilgi almak istiyorum.`)}`}
-                            target="_blank" rel="noreferrer"
-                            className="flex-1 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl font-extrabold text-xs text-center flex items-center justify-center gap-1.5"
-                          >
-                            <MessageCircle className="w-4 h-4" /> FIRSATI YAKALA
-                          </a>
+                          {!isSold ? (
+                            <>
+                              <button onClick={() => { setShowAllFeaturedModal(false); openPackagePreview(pkg); }} className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs">
+                                <Eye className="w-4 h-4 inline mr-1" /> İncele
+                              </button>
+                              <a
+                                href={`https://wa.me/905466308246?text=${encodeURIComponent(`Merhaba, "${pkg.title}" Fırsat Paketi hakkında bilgi almak istiyorum.`)}`}
+                                target="_blank" rel="noreferrer"
+                                className="flex-1 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl font-extrabold text-xs text-center flex items-center justify-center gap-1.5"
+                              >
+                                <MessageCircle className="w-4 h-4" /> FIRSATI YAKALA
+                              </a>
+                            </>
+                          ) : (
+                            <div className="w-full py-2.5 bg-slate-200 text-slate-500 font-extrabold text-xs text-center rounded-xl cursor-not-allowed">
+                              🚫 BU TASARIM SATILMIŞTIR
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -502,20 +625,32 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
               <div className="flex-1 overflow-y-auto max-h-[65vh] pr-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {regularItems.map((pkg) => {
                   const pkgImages = getPackageImages(pkg);
+                  const isSold = Boolean(pkg.isSold);
+
                   return (
-                    <div key={pkg.id} className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between hover:border-blue-300 transition-colors">
+                    <div key={pkg.id} className={`border rounded-2xl p-5 flex flex-col justify-between transition-colors ${
+                      isSold ? 'bg-slate-100 border-slate-300 opacity-90' : 'bg-slate-50 border-slate-200 hover:border-blue-300'
+                    }`}>
                       <div>
                         <div className="flex justify-between items-start gap-2 mb-2">
-                          <span className="bg-blue-50 text-blue-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">
-                            {pkg.badge || 'Hazır Set'}
+                          {isSold ? (
+                            <span className="bg-rose-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">
+                              🚫 SATILDI
+                            </span>
+                          ) : (
+                            <span className="bg-blue-50 text-blue-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">
+                              {pkg.badge || 'Hazır Set'}
+                            </span>
+                          )}
+                          <span className={`text-xl font-extrabold ${isSold ? 'text-slate-400 line-through' : 'text-slate-900'}`}>
+                            ₺{pkg.price}
                           </span>
-                          <span className="text-xl font-extrabold text-slate-900">₺{pkg.price}</span>
                         </div>
                         <h4 className="text-base font-bold text-slate-900 mb-1">{pkg.title}</h4>
                         <p className="text-xs text-slate-600 mb-3">{pkg.description}</p>
                         
                         {pkgImages.length > 0 && (
-                          <div className="grid grid-cols-4 gap-1.5 mb-4">
+                          <div className="grid grid-cols-4 gap-1.5 mb-4 relative">
                             {pkgImages.slice(0, 4).map((imgUrl, i) => (
                               <div key={i} className="aspect-[4/5] bg-slate-100 rounded-lg overflow-hidden relative border border-slate-200">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -527,16 +662,24 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
                       </div>
 
                       <div className="flex gap-2 pt-3 border-t border-slate-200">
-                        <button onClick={() => { setShowAllRegularModal(false); openPackagePreview(pkg); }} className="px-3.5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-bold text-xs">
-                          <Eye className="w-3.5 h-3.5 inline mr-1" /> İncele
-                        </button>
-                        <a
-                          href={`https://wa.me/905466308246?text=${encodeURIComponent(`Merhaba, "${pkg.title}" hazır paket tasarımı hakkında bilgi almak istiyorum.`)}`}
-                          target="_blank" rel="noreferrer"
-                          className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-extrabold text-xs text-center flex items-center justify-center gap-1"
-                        >
-                          <MessageCircle className="w-3.5 h-3.5" /> PAKETİ AL
-                        </a>
+                        {!isSold ? (
+                          <>
+                            <button onClick={() => { setShowAllRegularModal(false); openPackagePreview(pkg); }} className="px-3.5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-bold text-xs">
+                              <Eye className="w-3.5 h-3.5 inline mr-1" /> İncele
+                            </button>
+                            <a
+                              href={`https://wa.me/905466308246?text=${encodeURIComponent(`Merhaba, "${pkg.title}" hazır paket tasarımı hakkında bilgi almak istiyorum.`)}`}
+                              target="_blank" rel="noreferrer"
+                              className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-extrabold text-xs text-center flex items-center justify-center gap-1"
+                            >
+                              <MessageCircle className="w-3.5 h-3.5" /> PAKETİ AL
+                            </a>
+                          </>
+                        ) : (
+                          <div className="w-full py-2 bg-slate-200 text-slate-500 font-extrabold text-xs text-center rounded-xl cursor-not-allowed">
+                            🚫 BU TASARIM SATILMIŞTIR
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
@@ -549,7 +692,7 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
 
       {/* ===== PACKAGE DETAILS PREVIEW MODAL ===== */}
       <AnimatePresence>
-        {activeModalPackage && (
+        {activeModalPackage && !activeModalPackage.isSold && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -615,7 +758,7 @@ export default function ReadyPackagesSection({ items = [] }: { items?: ReadyPack
 
       {/* ===== LIGHTBOX FOR LARGE VIEW ===== */}
       <AnimatePresence>
-        {selectedLargeImageIndex !== null && activeModalPackage && (
+        {selectedLargeImageIndex !== null && activeModalPackage && !activeModalPackage.isSold && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

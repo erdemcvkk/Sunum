@@ -24,6 +24,7 @@ export async function createReadyPackage(formData: FormData) {
   const badge = (formData.get('badge') as string) || 'Hazır Tasarım Seti'
   const imagesJson = (formData.get('imagesJson') as string) || '[]'
   const isFeatured = formData.get('isFeatured') === 'true'
+  const isSold = formData.get('isSold') === 'true'
 
   if (!title) throw new Error('Paket başlığı zorunludur')
 
@@ -37,6 +38,7 @@ export async function createReadyPackage(formData: FormData) {
       badge,
       imagesJson,
       isFeatured,
+      isSold,
       order: count,
     },
   })
@@ -57,6 +59,7 @@ export async function updateReadyPackage(
     badge?: string
     imagesJson?: string
     isFeatured?: boolean
+    isSold?: boolean
     order?: number
   }
 ) {
