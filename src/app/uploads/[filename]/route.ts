@@ -13,6 +13,21 @@ const MIME_TYPES: Record<string, string> = {
   '.ico': 'image/x-icon',
 }
 
+// Scoped upload directories to avoid Turbopack tracing the entire project
+const UPLOAD_DIRS = [
+  '/app/public/uploads',
+  '/app/data/uploads',
+]
+
+function getUploadDirs(): string[] {
+  // Use turbopackIgnore to prevent NFT from tracing all of process.cwd()
+  const cwd = /* turbopackIgnore: true */ process.cwd()
+  return [
+    path.join(cwd, 'public', 'uploads'),
+    ...UPLOAD_DIRS,
+  ]
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ filename: string }> }
@@ -25,11 +40,7 @@ export async function GET(
     const safeFilename = path.basename(filename)
 
     // Check potential file location paths
-    const possiblePaths = [
-      path.join(process.cwd(), 'public', 'uploads', safeFilename),
-      path.join('/app', 'public', 'uploads', safeFilename),
-      path.join('/app', 'data', 'uploads', safeFilename),
-    ]
+    const possiblePaths = getUploadDirs().map(dir => path.join(dir, safeFilename))
 
     let filePath: string | null = null
     for (const p of possiblePaths) {

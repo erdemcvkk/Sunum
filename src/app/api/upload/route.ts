@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Dosya bulunamadı.' }, { status: 400 })
     }
 
-    let uploadDir = path.join(process.cwd(), 'public', 'uploads')
+    let uploadDir = path.join(/* turbopackIgnore: true */ process.cwd(), 'public', 'uploads')
     if (existsSync('/app/data')) {
       uploadDir = '/app/data/uploads'
     }
